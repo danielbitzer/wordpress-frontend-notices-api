@@ -1,0 +1,23 @@
+.notices-container:not(.empty) {
+  margin-bottom: 40px; }
+.notices-container .notice {
+  display: none;
+  margin: 0 0 5px;
+  border-left: 5px solid #999;
+  padding: 10px 19px;
+  color: #444;
+  font-size: 0.95em;
+  background: #f1f1f1; }
+  .notices-container .notice.success {
+    border-color: #7ad03a; }
+  .notices-container .notice.warning {
+    border-color: #f3b02c; }
+  .notices-container .notice.error {
+    border-color: #dd3d36; }
+  .notices-container .notice .close {
+    float: right;
+    font-size: 0.8em;
+    color: #999;
+    cursor: pointer; }
+  .notices-container .notice.visible {
+    display: block; }
