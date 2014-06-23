@@ -8,8 +8,8 @@ I'd suggest adding to mu-plugins
 
 ###Server Side
 ````php
-new WP_Frontend_Notice( 'Document uploaded successfully.', 'success' ); 
-new WP_Frontend_Notice( $message, $type, $timer, $priority ); 
+new WP_Frontend_Notice( 'success', 'Document uploaded successfully.' ); 
+new WP_Frontend_Notice( $type, $message, $timer, $priority ); 
 ````
 
 ###Client Side
