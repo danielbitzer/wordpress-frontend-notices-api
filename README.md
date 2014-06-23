@@ -9,7 +9,7 @@ I'd suggest adding to mu-plugins
 ###Server Side
 ````php
 new WP_Frontend_Notice( 'Document uploaded successfully.', 'success' ); 
-new WP_Frontend_Notice( $message, $type, $priority ); 
+new WP_Frontend_Notice( $message, $type, $timer, $priority ); 
 ````
 
 ###Client Side
@@ -17,13 +17,18 @@ If the <code>scroll_to</code> parameter is true then the window will scroll to t
 ````javascript
 jQuery(document).ready(function($){
 
-  $.WP_Frontend_Notices.success( message, scroll_to, callback );
-  $.WP_Frontend_Notices.error( message, scroll_to, callback );
-  $.WP_Frontend_Notices.notice( message, scroll_to, callback );
-  $.WP_Frontend_Notices.warning( message, scroll_to, callback );
+  $.WP_Frontend_Notices.success( message, scroll_to, timer, callback );
+  $.WP_Frontend_Notices.error( message, scroll_to, timer, callback );
+  $.WP_Frontend_Notices.notice( message, scroll_to, timer, callback );
+  $.WP_Frontend_Notices.warning( message, scroll_to, timer, callback );
   
   // Custom type
-  $.WP_Frontend_Notices.render_notice( message, type, scroll_to, callback );
+  $.WP_Frontend_Notices.render_notice( type, message, scroll_to, timer, callback );
+  
+  // Using the callback parameter
+  $.WP_Frontend_Notices.warning( 'Invalid form input.', false, 3000, function( $notice ) {
+  	console.log( $notice );
+  });
   
   
 });
