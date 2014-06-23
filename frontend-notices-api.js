@@ -43,7 +43,7 @@ jQuery(document).ready(function($){
 			this.$prepend_element = $( this.options.prepend_selector );
 
 			// Insert container
-			this.$prepend_element.prepend( '<div class="' + this.options.container_class + '">' );
+			this.$prepend_element.prepend( '<div class="' + this.options.container_class + ' empty">' );
 			this.$notices_container = $( this.$prepend_element.find( '.' + this.options.container_class ) );
 
 			this.render_from_session();
