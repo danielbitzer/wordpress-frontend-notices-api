@@ -140,18 +140,21 @@ new Frontend_Notices_API();
  */
 class WP_Frontend_Notice {
 
+
 	/**
-	 * @param $message string
-	 * @param $type string
+	 * @param $type
+	 * @param $message
+	 * @param bool|int $timer
 	 * @param int $priority
 	 */
-	public function __construct( $message, $type, $priority = 5 )
+	public function __construct( $type, $message, $timer = false, $priority = 5 )
 	{
 		// Save alert in queue
 		$_SESSION[ 'wp_frontend_notices' ][] = array(
 			'message' => $message,
 			'type' => $type,
-			'priority' => $priority
+			'priority' => $priority,
+			'timer' => $timer,
 		);
 
 	}

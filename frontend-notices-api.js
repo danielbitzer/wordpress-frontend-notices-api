@@ -86,9 +86,11 @@ jQuery(document).ready(function($){
 			{
 				var frontend_notice = frontend_notices_data[i];
 
-				this.render_notice( frontend_notice.message,
+				this.render_notice(
 					frontend_notice.type,
-					false
+					frontend_notice.message,
+					false,
+					frontend_notice.timer
 				);
 			}
 
@@ -96,15 +98,18 @@ jQuery(document).ready(function($){
 
 
 		/**
-		 * @param message {string}
-		 * @param type {string}
-		 * @param scroll_to {bool} Default: true
+		 * @param message
+		 * @param type
+		 * @param scroll_to
+		 * @param timer
+		 * @param callback
 		 */
-		render_notice: function( message, type, scroll_to ) {
+		render_notice: function( type, message, scroll_to, timer, callback ) {
 
 			var before_message,
 				after_message,
-				notice_html;
+				notice_html,
+				$notice;
 
 			if ( ! this.check_passed ) {
 				return;
@@ -145,7 +150,8 @@ jQuery(document).ready(function($){
 			this.$notices_container.prepend( notice_html );
 
 			// Add a visible class for CSS transitions
-			this.$notices_container.find( '.notice').first().addClass( 'visible' );
+			$notice = this.$notices_container.find( '.notice').first();
+			$notice.addClass( 'visible' );
 
 			if ( scroll_to !== false ) {
 				this.scroll_to_notices();
@@ -153,6 +159,19 @@ jQuery(document).ready(function($){
 
 			this.check_for_visible_notices();
 
+			// Remove after time
+			if ( timer ) {
+				setTimeout(function() {
+					$notice.removeClass( 'visible' );
+					$.WP_Frontend_Notices.check_for_visible_notices();
+				}, timer );
+			}
+
+			if ( callback ) {
+				callback( $notice );
+			}
+
+
 		},
 
 
@@ -161,10 +180,12 @@ jQuery(document).ready(function($){
 		/**
 		 * @param message
 		 * @param scroll_to
+		 * @param timer
+		 * @param callback
 		 */
-		success: function( message, scroll_to ) {
+		success: function( message, scroll_to, timer, callback ) {
 
-			this.render_notice( message, 'success', scroll_to );
+			this.render_notice( 'success', message, scroll_to, timer, callback );
 
 		},
 
@@ -172,10 +193,12 @@ jQuery(document).ready(function($){
 		/**
 		 * @param message
 		 * @param scroll_to
+		 * @param timer
+		 * @param callback
 		 */
-		notice: function( message, scroll_to ){
+		notice: function( message, scroll_to, timer, callback ){
 
-			this.render_notice( message, 'notice', scroll_to );
+			this.render_notice( 'notice', message, scroll_to, timer, callback );
 
 		},
 
@@ -183,10 +206,12 @@ jQuery(document).ready(function($){
 		/**
 		 * @param message
 		 * @param scroll_to
+		 * @param timer
+		 * @param callback
 		 */
-		error: function( message, scroll_to ) {
+		error: function( message, scroll_to, timer, callback ) {
 
-			this.render_notice( message, 'error', scroll_to );
+			this.render_notice( 'error', message, scroll_to, timer, callback );
 
 		},
 
@@ -194,10 +219,12 @@ jQuery(document).ready(function($){
 		/**
 		 * @param message
 		 * @param scroll_to
+		 * @param timer
+		 * @param callback
 		 */
-		warning: function( message, scroll_to ) {
+		warning: function( message, scroll_to, timer, callback ) {
 
-			this.render_notice( message, 'warning', scroll_to );
+			this.render_notice( 'warning', message, scroll_to, timer, callback );
 		},
 
 
