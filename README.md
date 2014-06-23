@@ -1,7 +1,7 @@
 Wordpress Frontend Notices API
 ==============================
 
-This is a very simple WordPress plugin for creating frontend notices server side or client side. Server side notices are stored in the session until displayed.
+This is a very simple WordPress plugin for creating frontend notices server side or client side. There are 4 notice types by default <code>success, error, warning, notice</code> but there is no reason you can't add custom types. Server side notices are stored in the session until displayed.
 
 ###Installation  
 I'd suggest adding to mu-plugins
@@ -17,10 +17,14 @@ If the <code>scroll_to</code> parameter is true then the window will scroll to t
 ````javascript
 jQuery(document).ready(function($){
 
-  $.WP_Frontend_Notices.success( message, scroll_to );
-  $.WP_Frontend_Notices.error( message, scroll_to );
-  $.WP_Frontend_Notices.notice( message, scroll_to );
-  $.WP_Frontend_Notices.warning( message, scroll_to );
+  $.WP_Frontend_Notices.success( message, scroll_to, callback );
+  $.WP_Frontend_Notices.error( message, scroll_to, callback );
+  $.WP_Frontend_Notices.notice( message, scroll_to, callback );
+  $.WP_Frontend_Notices.warning( message, scroll_to, callback );
+  
+  // Custom type
+  $.WP_Frontend_Notices.render_notice( message, type, scroll_to, callback );
+  
   
 });
 ````
