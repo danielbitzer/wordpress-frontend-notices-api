@@ -5,8 +5,6 @@ This is a very simple WordPress plugin for creating frontend notices server side
 
 I'd love to see something like this as part of the WordPress core.
 
-###Installation  
-I'd suggest adding to mu-plugins
 
 ###Server Side
 ````php
