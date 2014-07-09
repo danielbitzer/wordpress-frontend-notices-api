@@ -39,9 +39,9 @@ jQuery(document).ready(function($){
 
 
 ###Config
-Options can be overridden with filter 'frontend_notices_options'
+Options can be overridden with filter 'notice_api_options'
 ````php
-add_filter( 'notice_options', 'customize_notice_options' );
+add_filter( 'notice_api_options', 'customize_notice_options' );
 
 function customize_notice_options( $options )
 {
