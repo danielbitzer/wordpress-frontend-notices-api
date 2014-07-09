@@ -8,11 +8,11 @@ I'd love to see something like this as part of the WordPress core.
 
 ###Server Side
 ````php
-WP_Notices::success( 'Document Uploaded', 'Document uploaded successfully.' ); 
+WP_Notices::success( $title, $message, $timer, $priority ); 
 WP_Notices::warning( 'Login Failed', 'You have entered an incorrect Username or password, please try again.'); 
-WP_Notices::error( 'Login Failed', 'You have entered an incorrect Username or password, please try again.' ); 
-WP_Notices::general(); 
-WP_Notices::custom( $type, $title, $message, $timer = false, $priority = 5 ); 
+WP_Notices::error(  $title, $message, $timer, $priority ); 
+WP_Notices::general(  $title, $message, $timer, $priority ); 
+WP_Notices::custom( $type, $title, $message, $timer, $priority ); 
 ````
 
 ###Client Side
@@ -20,16 +20,16 @@ If the <code>scroll_to</code> parameter is true then the window will scroll to t
 ````javascript
 jQuery(document).ready(function($){
 
-  $.WP_Notices.success( message, scroll_to, timer, callback );
-  $.WP_Notices.error( message, scroll_to, timer, callback );
-  $.WP_Notices.general( message, scroll_to, timer, callback );
-  $.WP_Notices.warning( message, scroll_to, timer, callback );
+  $.WP_Notices.success( title,message, scroll_to, timer, callback );
+  $.WP_Notices.error( title, message, scroll_to, timer, callback );
+  $.WP_Notices.general( title, message, scroll_to, timer, callback );
+  $.WP_Notices.warning( title, message, scroll_to, timer, callback );
   
   // Custom type
-  $.WP_Frontend_Notices.render_notice( type, message, scroll_to, timer, callback );
+  $.WP_Notices.render_notice( type, title, message, scroll_to, timer, callback );
   
   // Using the callback parameter
-  $.WP_Frontend_Notices.warning( 'Invalid form input.', false, 3000, function( $notice ) {
+  $.WP_Notices.warning( 'Form Error', 'Invalid form input.', false, 3000, function( $notice ) {
   	console.log( $notice );
   });
   
@@ -41,9 +41,9 @@ jQuery(document).ready(function($){
 ###Config
 Options can be overridden with filter 'frontend_notices_options'
 ````php
-add_filter( 'frontend_notices_options', 'customize_frontend_alerts' );
+add_filter( 'notice_options', 'customize_notice_options' );
 
-function customize_frontend_alerts( $options )
+function customize_notice_options( $options )
 {
 	$options = array(
 		'prepend_selector' => '#content',
