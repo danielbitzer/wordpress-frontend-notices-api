@@ -1,6 +1,6 @@
 jQuery(document).ready(function($){
 
-	$.WP_Frontend_Notices = {
+	$.WP_Notices = {
 
 
 		/**
@@ -39,7 +39,7 @@ jQuery(document).ready(function($){
 				return;
 			}
 
-			this.options = frontend_notices_options;
+			this.options = notice_options;
 			this.$prepend_element = $( this.options.prepend_selector );
 
 			// Insert container
@@ -58,14 +58,14 @@ jQuery(document).ready(function($){
 		check: function() {
 
 			// Check we have parameters object
-			if ( typeof frontend_notices_options == 'undefined' ) {
-				console.log( 'Missing Frontend notices parameters object.' );
+			if ( typeof notice_options == 'undefined' ) {
+				console.log( 'Missing Notices parameters object.' );
 				return false;
 			}
 
 			// Check we have somewhere to put our notices
-			if ( ! $( frontend_notices_options.prepend_selector ).length ) {
-				console.log( 'Frontend notices prepend element not found.' );
+			if ( ! $( notice_options.prepend_selector ).length ) {
+				console.log( 'Notices prepend element not found.' );
 				return false;
 			}
 
@@ -78,19 +78,20 @@ jQuery(document).ready(function($){
 		 */
 		render_from_session: function() {
 
-			if ( typeof frontend_notices_data == 'undefined' ) {
+			if ( typeof notices_api_data == 'undefined' ) {
 				return;
 			}
 
-			for ( i in frontend_notices_data )
+			for ( i in notices_api_data )
 			{
-				var frontend_notice = frontend_notices_data[i];
+				var notice = notices_api_data[i];
 
 				this.render_notice(
-					frontend_notice.type,
-					frontend_notice.message,
+					notice.type,
+					notice.title,
+					notice.message,
 					false,
-					frontend_notice.timer
+					notice.timer
 				);
 			}
 
@@ -104,7 +105,7 @@ jQuery(document).ready(function($){
 		 * @param timer
 		 * @param callback
 		 */
-		render_notice: function( type, message, scroll_to, timer, callback ) {
+		render_notice: function( type, title, message, scroll_to, timer, callback ) {
 
 			var before_message,
 				after_message,
@@ -115,34 +116,11 @@ jQuery(document).ready(function($){
 				return;
 			}
 
-			switch ( type ) {
-
-				case 'success':
-					before_message = this.options.before_success_message;
-					after_message = this.options.after_success_message;
-					break;
-
-				case 'warning':
-					before_message = this.options.before_warning_message;
-					after_message = this.options.after_warning_message;
-					break;
-
-				case 'error':
-					before_message = this.options.before_error_message;
-					after_message = this.options.after_error_message;
-					break;
-
-				case 'notice':
-					before_message = this.options.before_notice_message;
-					after_message = this.options.after_notice_message;
-					break;
-			}
-
-
 			// Format notice
 			notice_html = '<div class="notice ' + type + ' ">'
 				+ '<span class="message">'
-				+ before_message + message + after_message
+				+ this.options.before_title + title + this.options.after_title
+				+ message
 				+ '</span>'
 				+ '<span class="close">Close</span>'
 				+ '</div>';
@@ -163,7 +141,7 @@ jQuery(document).ready(function($){
 			if ( timer ) {
 				setTimeout(function() {
 					$notice.removeClass( 'visible' );
-					$.WP_Frontend_Notices.check_for_visible_notices();
+					$.WP_Notices.check_for_visible_notices();
 				}, timer );
 			}
 
@@ -183,22 +161,9 @@ jQuery(document).ready(function($){
 		 * @param timer
 		 * @param callback
 		 */
-		success: function( message, scroll_to, timer, callback ) {
+		success: function( title, message, scroll_to, timer, callback ) {
 
-			this.render_notice( 'success', message, scroll_to, timer, callback );
-
-		},
-
-
-		/**
-		 * @param message
-		 * @param scroll_to
-		 * @param timer
-		 * @param callback
-		 */
-		notice: function( message, scroll_to, timer, callback ){
-
-			this.render_notice( 'notice', message, scroll_to, timer, callback );
+			this.render_notice( 'success', title, message, scroll_to, timer, callback );
 
 		},
 
@@ -209,9 +174,9 @@ jQuery(document).ready(function($){
 		 * @param timer
 		 * @param callback
 		 */
-		error: function( message, scroll_to, timer, callback ) {
+		general: function( title, message, scroll_to, timer, callback ){
 
-			this.render_notice( 'error', message, scroll_to, timer, callback );
+			this.render_notice( 'general', title, message, scroll_to, timer, callback );
 
 		},
 
@@ -222,9 +187,22 @@ jQuery(document).ready(function($){
 		 * @param timer
 		 * @param callback
 		 */
-		warning: function( message, scroll_to, timer, callback ) {
+		error: function( title, message, scroll_to, timer, callback ) {
 
-			this.render_notice( 'warning', message, scroll_to, timer, callback );
+			this.render_notice( 'error', title, message, scroll_to, timer, callback );
+
+		},
+
+
+		/**
+		 * @param message
+		 * @param scroll_to
+		 * @param timer
+		 * @param callback
+		 */
+		warning: function( title, message, scroll_to, timer, callback ) {
+
+			this.render_notice( 'warning', title, message, scroll_to, timer, callback );
 		},
 
 
@@ -244,7 +222,7 @@ jQuery(document).ready(function($){
 				},
 				this.options.scrolling_speed,
 				function(){
-					$.WP_Frontend_Notices.scrolling = false;
+					$.WP_Notices.scrolling = false;
 				}
 			);
 
@@ -258,7 +236,7 @@ jQuery(document).ready(function($){
 
 			$(document).on( 'click', '.' + this.options.container_class + ' .close', function(){
 				$(this).parents( '.notice' ).removeClass( 'visible' );
-				$.WP_Frontend_Notices.check_for_visible_notices();
+				$.WP_Notices.check_for_visible_notices();
 			});
 
 		},
@@ -280,6 +258,6 @@ jQuery(document).ready(function($){
 
 	}
 
-	$.WP_Frontend_Notices.init();
+	$.WP_Notices.init();
 
 });
