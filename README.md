@@ -8,8 +8,11 @@ I'd love to see something like this as part of the WordPress core.
 
 ###Server Side
 ````php
-new WP_Frontend_Notice( 'success', 'Document uploaded successfully.' ); 
-new WP_Frontend_Notice( $type, $message, $timer, $priority ); 
+WP_Notices::success( 'Document Uploaded', 'Document uploaded successfully.' ); 
+WP_Notices::warning( 'Login Failed', 'You have entered an incorrect Username or password, please try again.'); 
+WP_Notices::error( 'Login Failed', 'You have entered an incorrect Username or password, please try again.' ); 
+WP_Notices::general(); 
+WP_Notices::custom( $type, $title, $message, $timer = false, $priority = 5 ); 
 ````
 
 ###Client Side
@@ -17,10 +20,10 @@ If the <code>scroll_to</code> parameter is true then the window will scroll to t
 ````javascript
 jQuery(document).ready(function($){
 
-  $.WP_Frontend_Notices.success( message, scroll_to, timer, callback );
-  $.WP_Frontend_Notices.error( message, scroll_to, timer, callback );
-  $.WP_Frontend_Notices.notice( message, scroll_to, timer, callback );
-  $.WP_Frontend_Notices.warning( message, scroll_to, timer, callback );
+  $.WP_Notices.success( message, scroll_to, timer, callback );
+  $.WP_Notices.error( message, scroll_to, timer, callback );
+  $.WP_Notices.general( message, scroll_to, timer, callback );
+  $.WP_Notices.warning( message, scroll_to, timer, callback );
   
   // Custom type
   $.WP_Frontend_Notices.render_notice( type, message, scroll_to, timer, callback );
@@ -45,14 +48,8 @@ function customize_frontend_alerts( $options )
 	$options = array(
 		'prepend_selector' => '#content',
 		'container_class' => 'notices-container',
-		'before_error_message' => '<strong>Error</strong> ',
-		'after_error_message' => '',
-		'before_success_message' => '<strong>Success</strong> ',
-		'after_success_message' => '',
-		'before_notice_message' => '<strong>Notice</strong> ',
-		'after_notice_message' => '',
-		'before_warning_message' => '<strong>Warning</strong> ',
-		'after_warning_message' => '',
+		'before_title' => '<strong>',
+		'after_title' => ':</strong> ',
 		'scrolling_speed' => 500,
 	);
 	return $options;
