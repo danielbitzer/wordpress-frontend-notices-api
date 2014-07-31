@@ -254,6 +254,15 @@ jQuery(document).ready(function($){
 				this.$notices_container.addClass( 'empty' );
 			}
 
+		},
+
+
+		/**
+		 * Remove all notices
+		 */
+		clear: function() {
+			this.$notices_container.find( '.notice' ).removeClass( 'visible' );
+			this.$notices_container.addClass( 'empty' );
 		}
 
 	}
