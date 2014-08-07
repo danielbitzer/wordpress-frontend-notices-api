@@ -1,9 +1,11 @@
 WordPress Notices API
 ==============================
 
-This is a very simple WordPress plugin for creating frontend notices server side or client side. There are 4 notice types by default <code>success, error, warning, notice</code> but there is no reason you can't add custom types. Server side notices are stored in the session until displayed.
+This is a very simple WordPress plugin for creating frontend notices server side or client side. There are 4 notice types by default *success, error, warning, general* or you can create custom notice types. Server side notices are stored in the session until displayed.
 
-I'd love to see something like this as part of the WordPress core.
+This plugin hopes to one day solve the problem of complex WordPress sites with multiple plugins all having their own Notices that all require styling. 
+
+But for now, the Notices API is useful tool for developers creating custom functionality in their theme.
 
 
 ###Server Side
